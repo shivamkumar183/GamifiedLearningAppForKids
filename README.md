@@ -49,7 +49,7 @@ A fun, interactive, and educational web application designed to help kids learn 
   GitHub: [shivamkumar183](https://github.com/shivamkumar183)  
   LinkedIn: [linkedin.com/in/shivamkumar183](https://www.linkedin.com/in/shivamkumar183)  
   Email: hshivam183kumar@gmail.com
-[![LinkedIn](https://img.shields.io/badge/LinkedIn--blue?style=social&logo=linkedin)](https://www.linkedin.com/in/shivamkumar183)
+
 
 
    
