@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Matching Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #eef2f3; padding: 20px; }
+        .container { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        .card { width: 100px; height: 100px; background-color: #007bff; color: white; font-size: 18px; font-weight: bold; 
+            display: flex; align-items: center; justify-content: center; border-radius: 10px; cursor: pointer; }
+        .hidden { background-color: gray; color: transparent; }
+        .celebration { display: none; font-size: 24px; color: #28a745; font-weight: bold; margin-top: 20px; }
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #be87fd;
+            margin: 0;
+        }
+        .game-container { 
+            background: rgb(216, 144, 144);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .race-track { 
+            width: 100%; 
+            height: 50px; 
+            background: lightgray; 
+            position: relative; 
+            border-radius: 25px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        .car { 
+            width: 50px; 
+            height: 30px; 
+            background: red; 
+            position: absolute; 
+            left: 0; 
+            top: 10px;
+            border-radius: 5px;
+            transition: left 0.5s ease-in-out;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        input {
+            width: 80%;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Emotion Matching Game</h1>
+    <p>Click on a card to reveal and match the emotions.</p>
+    <div class="container" id="gameBoard"></div>
+    <div class="celebration" id="celebrationMessage">🎉 Congratulations! You matched all emotions! 🎉</div>
+    <button onclick="resetGame()">Restart Game</button>
+
+    <script>
+        const emotions = ["Happy", "Sad", "Angry", "Surprised", "Neutral"];
+        let firstCard, secondCard, matchedPairs = 0, lockBoard = false;
+        const gameBoard = document.getElementById("gameBoard");
+        const celebrationMessage = document.getElementById("celebrationMessage");
+
+        function initializeGame() {
+            gameBoard.innerHTML = "";
+            celebrationMessage.style.display = "none";
+            firstCard = secondCard = null;
+            matchedPairs = 0;
+            lockBoard = false;
+            let shuffled = [...emotions, ...emotions].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach(emotion => {
+                let card = document.createElement("div");
+                card.classList.add("card", "hidden");
+                card.dataset.emotion = emotion;
+                card.innerText = emotion;
+                card.addEventListener("click", handleCardClick);
+                gameBoard.appendChild(card);
+            });
+        }
+
+        function handleCardClick() {
+            if (lockBoard || !this.classList.contains("hidden")) return;
+            this.classList.remove("hidden");
+
+            if (!firstCard) {
+                firstCard = this;
+            } else {
+                secondCard = this;
+                lockBoard = true;
+                if (firstCard.dataset.emotion === secondCard.dataset.emotion) {
+                    matchedPairs++;
+                    firstCard = secondCard = null;
+                    lockBoard = false;
+                    if (matchedPairs === emotions.length) {
+                        celebrationMessage.style.display = "block";
+                    }
+                } else {
+                    setTimeout(() => {
+                        firstCard.classList.add("hidden");
+                        secondCard.classList.add("hidden");
+                        firstCard = secondCard = null;
+                        lockBoard = false;
+                    }, 1000);
+                }
+            }
+        }
+
+        function resetGame() {
+            initializeGame();
+        }
+
+        initializeGame();
+    </script>
+</body>
+</html>

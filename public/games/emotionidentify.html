@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Game - Easy</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; background-color: #a8dadc; }
+        .emoji { font-size: 80px; margin: 20px 0; }
+        .button { padding: 10px 20px; font-size: 18px; margin: 5px; cursor: pointer; }
+        .success { display: none; font-size: 20px; color: green; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Identify the Emotion - Easy</h1>
+    <div class="emoji" id="emotionDisplay">😀</div>
+    <div id="emotionOptions"></div>
+    <div class="success" id="emotionSuccess">✅ Correct!</div>
+    <button onclick="startGame()">New Emotion</button>
+    <script>
+        const emotions = { "Happy": "😀", "Sad": "😢" };
+        function startGame() {
+            let randomEmotion = Object.keys(emotions)[Math.floor(Math.random() * 2)];
+            document.getElementById("emotionDisplay").textContent = emotions[randomEmotion];
+            document.getElementById("emotionOptions").innerHTML = Object.keys(emotions)
+                .map(e => `<button class='button' onclick='checkEmotion("${e}", "${randomEmotion}")'>${e}</button>`)
+                .join(" ");
+            document.getElementById("emotionSuccess").style.display = "none";
+        }
+        function checkEmotion(selected, correct) {
+            document.getElementById("emotionSuccess").style.display = selected === correct ? "block" : "none";
+        }
+        startGame();
+    </script>
+</body>
+</html>
